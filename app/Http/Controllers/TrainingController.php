@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\MuscleMemories\Domain\Repository\TraineeRepository;
+use App\Domain\MuscleMemories\Domain\Repository\TrainingRepository;
+use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
+use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
+use App\Domain\MuscleMemories\UseCase\CreateTrainingUseCase;
 use App\Models\Training;
 use App\Models\TrainingMenu;
 use App\Models\TrainingSet;
@@ -33,16 +38,11 @@ class TrainingController extends Controller
     {
         $user = \Auth::user();
 
-        $training = Training::create([
-            'user_id' => $user->id,
-            'training_menu_id' => $request->get('training_menu'),
-        ]);
-        $trainingSet = TrainingSet::create([
-            'training_id' => $training->id,
-            'reps' => $request->get('reps'),
-            'weight' => $request->get('weight'),
-            'interval_seconds' => $request->get('interval_seconds'),
-        ]);
+        $createTrainingUseCase = new CreateTrainingUseCase(new TrainingRepository(), new TraineeRepository);
+        $createTrainingUseCase->execute(
+            new TrainingMenuId($request->get('training_menu')),
+            new UserId($user->id)
+        );
 
         return redirect(route('training.create'));
     }
