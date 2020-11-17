@@ -8,8 +8,22 @@ use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 use App\Models\Training;
 
-final class TrainingRepository implements TrainingRepositoryInterface
+/**
+ * Class MysqlTrainingRepository
+ * @package App\Domain\MuscleMemories\Domain\Repository
+ */
+final class MysqlTrainingRepository implements TrainingRepositoryInterface
 {
+    private Training $trainingOrm;
+
+    /**
+     * MysqlTrainingRepository constructor.
+     */
+    public function __construct()
+    {
+        $this->trainingOrm = new Training;
+    }
+
     /**
      * @param TrainingEntity $trainingEntity
      * @return TrainingEntity|null
@@ -32,9 +46,9 @@ final class TrainingRepository implements TrainingRepositoryInterface
      * @param TrainingId $id
      * @return TrainingEntity|null
      */
-    public function getTraining(TrainingId $id): ?TrainingEntity
+    public function get(TrainingId $id): ?TrainingEntity
     {
-        $training = Training::find($id->getValue());
+        $training = $this->trainingOrm->find($id->getValue());
         if ($training) {
             return TrainingEntity::reconstructFromRepository(
                 new TrainingMenuId($training->training_menu_id),
@@ -43,5 +57,21 @@ final class TrainingRepository implements TrainingRepositoryInterface
         } else {
             return null;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getAll(): array
+    {
+        return $this->trainingOrm->query()
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(function($training) {
+                return TrainingEntity::reconstructFromRepository(
+                    new TrainingMenuId($training->training_menu_id),
+                    new UserId($training->id),
+                );
+            });
     }
 }

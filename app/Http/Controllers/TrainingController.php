@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\MuscleMemories\Domain\Repository\TraineeRepository;
-use App\Domain\MuscleMemories\Domain\Repository\TrainingRepository;
+use App\Domain\MuscleMemories\Domain\Entity\TrainingMenuEntity;
+use App\Domain\MuscleMemories\Domain\Repository\TraineeRepositoryInterface;
 use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 use App\Domain\MuscleMemories\UseCase\CreateTrainingUseCase;
-use App\Models\Training;
 use App\Models\TrainingMenu;
-use App\Models\TrainingSet;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
+/**
+ * Class TrainingController
+ * @package App\Http\Controllers
+ */
 class TrainingController extends Controller
 {
     public function index()
     {
-        $user = \Auth::user();
+        $userId = \Auth::user()->id;
+        $traineeRepository = app(TraineeRepositoryInterface::class);
+        $trainings = $traineeRepository->getAll();
 
         return view('training.index', compact('user'));
     }
@@ -26,24 +35,28 @@ class TrainingController extends Controller
 
     }
 
+    /**
+     * @return Application|Factory|View
+     */
     public function create()
     {
-        $trainingMenus = TrainingMenu::all()->mapToGroups(function ($item, $key) {
-            return [$item['body_part'] => ['id' => $item['id'], 'name' => $item['name']]];
-        })->toArray();
-        return view('training.create', compact('trainingMenus'));
+        return view('training.create');
     }
 
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
     public function store(Request $request)
     {
         $user = \Auth::user();
 
-        $createTrainingUseCase = new CreateTrainingUseCase(new TrainingRepository(), new TraineeRepository);
+        $createTrainingUseCase = app(CreateTrainingUseCase::class);
         $createTrainingUseCase->execute(
             new TrainingMenuId($request->get('training_menu')),
             new UserId($user->id)
         );
 
-        return redirect(route('training.create'));
+        return redirect(route('training.index'));
     }
 }

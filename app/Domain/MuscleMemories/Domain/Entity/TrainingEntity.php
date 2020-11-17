@@ -33,7 +33,7 @@ class TrainingEntity
         UserId $userId
     ): TrainingEntity
     {
-        $training = new self();
+        $training = new self;
         $training->trainingMenuId = $trainingMenuId;
         $training->userId = $userId;
         return $training;
@@ -48,7 +48,7 @@ class TrainingEntity
         TrainingMenuId $trainingMenuId,
         UserId $userId
     ): TrainingEntity {
-        $training = new self();
+        $training = new self;
         $training->trainingMenuId = $trainingMenuId;
         $training->userId = $userId;
         return $training;

@@ -14,24 +14,15 @@
                 <div class="col-span-6 sm:col-span-3">
                     <label for="training_menu" class="block text-sm font-medium leading-5 text-gray-700">トレーニングメニュー</label>
                     <select name="training_menu" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                        @foreach($trainingMenus as $bodyPart => $menus)
+                        @foreach(\App\Domain\MuscleMemories\Domain\Entity\TrainingMenuEntity::getTrainingMenuSelectOptions() as $bodyPart => $options)
                             <optgroup label="{{ $bodyPart }}">
-                                @foreach($menus as $menu)
-                                    <option value="{{ $menu['id'] }}">{{ $menu['name'] }}</option>
+                                @foreach($options as $option)
+                                    <option value="{{ $option['id'] }}">{{ $option['name'] }}</option>
                                 @endforeach
                             </optgroup>
                         @endforeach
                     </select>
                 </div>
-{{--                    <select class="form-control" id="trainingMenu">--}}
-{{--                        @foreach($trainingMenus as $bodyPart => $menus)--}}
-{{--                            <optgroup label="{{ $bodyPart }}">--}}
-{{--                                @foreach($menus as $menu)--}}
-{{--                                    <option value="{{ $menu['id'] }}">{{ $menu['name'] }}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </optgroup>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
 
                 <div class="form-group">
                     <label for="reps">レップ数</label>

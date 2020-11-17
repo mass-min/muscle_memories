@@ -10,6 +10,7 @@ use App\Domain\MuscleMemories\Domain\ValueObject\TrainingSetWeight;
 
 /**
  * Class TrainingSetEntity
+ * @package App\Domain\MuscleMemories\Domain\Entity
  */
 class TrainingSetEntity
 {

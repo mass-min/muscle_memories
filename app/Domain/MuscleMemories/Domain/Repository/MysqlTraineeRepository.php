@@ -7,7 +7,11 @@ use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserName;
 use App\Models\User;
 
-final class TraineeRepository implements TraineeRepositoryInterface
+/**
+ * Class MysqlTraineeRepository
+ * @package App\Domain\MuscleMemories\Domain\Repository
+ */
+final class MysqlTraineeRepository implements TraineeRepositoryInterface
 {
     /**
      * @param UserEntity $userEntity
@@ -33,11 +37,12 @@ final class TraineeRepository implements TraineeRepositoryInterface
      */
     public function getTrainee(UserId $id): ?UserEntity
     {
-        $user = User::find($id->getValue());
-        if ($user) {
+        $userOrm = new User;
+        $userData = $userOrm->find($id->getValue());
+        if ($userData) {
             return UserEntity::reconstructFromRepository(
-                new UserId($user->id),
-                new UserName($user->name)
+                $id,
+                new UserName($userData->name)
             );
         } else {
             return null;

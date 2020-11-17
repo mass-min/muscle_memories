@@ -4,8 +4,6 @@ namespace App\Domain\MuscleMemories\Domain\Repository;
 
 use App\Domain\MuscleMemories\Domain\Entity\TrainingEntity;
 use App\Domain\MuscleMemories\Domain\ValueObject\TrainingId;
-use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
-use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 
 /**
  * Interface TrainingRepositoryInterface
@@ -23,5 +21,10 @@ interface TrainingRepositoryInterface
      * @param TrainingId $id
      * @return TrainingEntity|null
      */
-    public function getTraining(TrainingId $id): ?TrainingEntity;
+    public function get(TrainingId $id): ?TrainingEntity;
+
+    /**
+     * @return array
+     */
+    public function getAll(): array;
 }

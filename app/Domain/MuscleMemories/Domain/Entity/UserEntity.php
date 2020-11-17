@@ -8,6 +8,7 @@ use App\Domain\MuscleMemories\Domain\ValueObject\UserName;
 
 /**
  * Class UserEntity
+ * @package App\Domain\MuscleMemories\Domain\Entity
  */
 class UserEntity
 {
@@ -29,7 +30,7 @@ class UserEntity
      */
     public static function reconstructFromRepository(UserId $id, UserName $name): UserEntity
     {
-        $user = new self();
+        $user = new self;
         $user->id = $id;
         $user->name = $name;
 
@@ -61,6 +62,11 @@ class UserEntity
     public function getName(): UserName
     {
         return $this->name;
+    }
+
+    public function trainings(): array
+    {
+        return 
     }
 }
 
