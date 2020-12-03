@@ -9,6 +9,7 @@ use App\Domain\MuscleMemories\Domain\Repository\MysqlTrainingRepository;
 use App\Domain\MuscleMemories\Domain\Repository\TrainingMenuRepositoryInterface;
 use App\Domain\MuscleMemories\Domain\Repository\TrainingRepositoryInterface;
 use App\Domain\MuscleMemories\UseCase\CreateTrainingUseCase;
+use App\Domain\MuscleMemories\UseCase\GetUserTrainingsUseCase;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TraineeRepositoryInterface::class, MysqlTraineeRepository::class);
         $this->app->singleton(TrainingMenuRepositoryInterface::class, MysqlTrainingMenuRepository::class);
         $this->app->singleton(CreateTrainingUseCase::class, CreateTrainingUseCase::class);
+        $this->app->singleton(GetUserTrainingsUseCase::class, GetUserTrainingsUseCase::class);
     }
 
     /**

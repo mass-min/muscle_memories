@@ -15,6 +15,10 @@ class TrainingEntity
     private TrainingId $id;
     private TrainingMenuId $trainingMenuId;
     private UserId $userId;
+    /**
+     * @var TrainingSetEntity[]
+     */
+    private array $trainingSets;
 
     /**
      * TrainingEntity constructor.
@@ -26,16 +30,22 @@ class TrainingEntity
     /**
      * @param TrainingMenuId $trainingMenuId
      * @param UserId $userId
+     * @param TrainingSetEntity[] $trainingSets
      * @return TrainingEntity
      */
     public static function reconstructFromRepository(
         TrainingMenuId $trainingMenuId,
-        UserId $userId
+        UserId $userId,
+        array $trainingSets
     ): TrainingEntity
     {
         $training = new self;
         $training->trainingMenuId = $trainingMenuId;
         $training->userId = $userId;
+        $training->trainingSets = [];
+        foreach ($trainingSets as $trainingSet) {
+            $training->trainingSets[] = self::addTrainingSet($trainingSet);
+        }
         return $training;
     }
 
@@ -76,5 +86,21 @@ class TrainingEntity
     public function getUserId(): UserId
     {
         return $this->userId;
+    }
+
+    /**
+     * @return TrainingSetEntity[]
+     */
+    public function getTrainingSets(): array
+    {
+        return $this->trainingSets;
+    }
+
+    /**
+     * @param TrainingSetEntity $trainingSetEntity
+     * @return TrainingSetEntity
+     */
+    private static function addTrainingSet(TrainingSetEntity $trainingSetEntity) {
+        return $trainingSetEntity;
     }
 }

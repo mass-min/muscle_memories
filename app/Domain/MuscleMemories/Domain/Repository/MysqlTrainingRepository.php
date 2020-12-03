@@ -2,11 +2,21 @@
 
 namespace App\Domain\MuscleMemories\Domain\Repository;
 
+use App\Domain\MuscleMemories\Domain\DataTransferObject\TrainingData;
+use App\Domain\MuscleMemories\Domain\DataTransferObject\TrainingMenuData;
+use App\Domain\MuscleMemories\Domain\DataTransferObject\TrainingSetData;
 use App\Domain\MuscleMemories\Domain\Entity\TrainingEntity;
+use App\Domain\MuscleMemories\Domain\Entity\TrainingMenuEntity;
+use App\Domain\MuscleMemories\Domain\Entity\TrainingSetEntity;
 use App\Domain\MuscleMemories\Domain\ValueObject\TrainingId;
 use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
+use App\Domain\MuscleMemories\Domain\ValueObject\TrainingSetId;
+use App\Domain\MuscleMemories\Domain\ValueObject\TrainingSetIntervalSeconds;
+use App\Domain\MuscleMemories\Domain\ValueObject\TrainingSetReps;
+use App\Domain\MuscleMemories\Domain\ValueObject\TrainingSetWeight;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 use App\Models\Training;
+use App\Models\TrainingMenu;
 
 /**
  * Class MysqlTrainingRepository
@@ -60,18 +70,56 @@ final class MysqlTrainingRepository implements TrainingRepositoryInterface
     }
 
     /**
+     * @param UserId $userId
      * @return array
      */
-    public function getAll(): array
+    public function getAllByUserId(UserId $userId): array
     {
-        return $this->trainingOrm->query()
+        $trainingEntities = $this->trainingOrm->query()
+            ->where('user_id', $userId->getValue())
             ->orderByDesc('created_at')
             ->get()
-            ->map(function($training) {
+            ->map(function ($training) {
+                $trainingSetEntities = [];
+                foreach ($training->trainingSets as $trainingSet) {
+                    $trainingSetEntities[] = TrainingSetEntity::reconstructFromRepository(
+                        new TrainingSetId($trainingSet->id),
+                        new TrainingId($trainingSet->training_id),
+                        new TrainingSetReps($trainingSet->reps),
+                        new TrainingSetWeight($trainingSet->weight),
+                        new TrainingSetIntervalSeconds($trainingSet->interval_seconds),
+                    );
+                }
                 return TrainingEntity::reconstructFromRepository(
                     new TrainingMenuId($training->training_menu_id),
                     new UserId($training->id),
+                    $trainingSetEntities,
                 );
-            });
+            })
+            ->toArray();
+
+        $trainings = [];
+
+        foreach ($trainingEntities as $trainingEntity) {
+            $trainingSets = [];
+
+            foreach ($trainingEntity->getTrainingSets() as $trainingSetEntity) {
+                $trainingSets[] = new TrainingSetData(
+                    $trainingSetEntity->getId()->getValue(),
+                    $trainingSetEntity->getTrainingId()->getValue(),
+                    $trainingSetEntity->getReps()->getValue(),
+                    $trainingSetEntity->getWeight()->getValue(),
+                    $trainingSetEntity->getIntervalSeconds()->getValue(),
+                );
+            }
+
+            $trainings[] = new TrainingData(
+                $userId->getValue(),
+                new TrainingMenuData($trainingEntity->getTrainingMenuId()->getValue(), 'hoge'),
+                $trainingSets
+            );
+        }
+
+        return $trainings;
     }
 }

@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             <h1>トレーニング一覧</h1>
             <ul>
-                @foreach($user->trainings as $training)
+                @foreach($trainings as $training)
                     <li>
                         <p>{{ $training->trainingMenu->name }}</p>
                         <ul>

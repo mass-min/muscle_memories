@@ -64,9 +64,9 @@ class UserEntity
         return $this->name;
     }
 
-    public function trainings(): array
+    public function trainings()
     {
-        return 
+        // 一覧ページで【ユーザーに紐づくtraining一覧】を表示したい
     }
 }
 

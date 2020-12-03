@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\MuscleMemories\Domain\Entity\TrainingMenuEntity;
-use App\Domain\MuscleMemories\Domain\Repository\TraineeRepositoryInterface;
 use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 use App\Domain\MuscleMemories\UseCase\CreateTrainingUseCase;
-use App\Models\TrainingMenu;
+use App\Domain\MuscleMemories\UseCase\GetUserTrainingsUseCase;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,11 +21,11 @@ class TrainingController extends Controller
 {
     public function index()
     {
-        $userId = \Auth::user()->id;
-        $traineeRepository = app(TraineeRepositoryInterface::class);
-        $trainings = $traineeRepository->getAll();
+        $user = \Auth::user();
+        $getUserTrainingsUseCase = app(GetUserTrainingsUseCase::class);
+        $trainings = $getUserTrainingsUseCase->execute(new UserId($user->id));
 
-        return view('training.index', compact('user'));
+        return view('training.index', compact('trainings'));
     }
 
     public function show()
@@ -50,7 +48,6 @@ class TrainingController extends Controller
     public function store(Request $request)
     {
         $user = \Auth::user();
-
         $createTrainingUseCase = app(CreateTrainingUseCase::class);
         $createTrainingUseCase->execute(
             new TrainingMenuId($request->get('training_menu')),

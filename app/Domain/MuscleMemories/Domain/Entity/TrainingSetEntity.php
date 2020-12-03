@@ -22,24 +22,73 @@ class TrainingSetEntity
 
     /**
      * TrainingSetEntity constructor.
+     */
+    private function __construct()
+    {
+    }
+
+    /**
      * @param TrainingSetId $id
      * @param trainingId $trainingId
      * @param TrainingSetReps $reps
      * @param TrainingSetWeight $weight
      * @param TrainingSetIntervalSeconds $intervalSeconds
+     * @return TrainingSetEntity
      */
-    public function __construct(
+    public static function reconstructFromRepository(
         TrainingSetId $id,
         trainingId $trainingId,
         TrainingSetReps $reps,
         TrainingSetWeight $weight,
         TrainingSetIntervalSeconds $intervalSeconds
-    )
+    ): TrainingSetEntity
     {
-        $this->id = $id;
-        $this->trainingId = $trainingId;
-        $this->reps = $reps;
-        $this->weight = $weight;
-        $this->intervalSeconds = $intervalSeconds;
+        $trainingSet = new self;
+        $trainingSet->id = $id;
+        $trainingSet->trainingId = $trainingId;
+        $trainingSet->reps = $reps;
+        $trainingSet->weight = $weight;
+        $trainingSet->intervalSeconds = $intervalSeconds;
+        return $trainingSet;
+    }
+
+    /**
+     * @return TrainingSetId
+     */
+    public function getId(): TrainingSetId
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return TrainingId
+     */
+    public function getTrainingId(): TrainingId
+    {
+        return $this->trainingId;
+    }
+
+    /**
+     * @return TrainingSetReps
+     */
+    public function getReps(): TrainingSetReps
+    {
+        return $this->reps;
+    }
+
+    /**
+     * @return TrainingSetWeight
+     */
+    public function getWeight(): TrainingSetWeight
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @return TrainingSetIntervalSeconds
+     */
+    public function getIntervalSeconds(): TrainingSetIntervalSeconds
+    {
+        return $this->intervalSeconds;
     }
 }
