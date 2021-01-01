@@ -13,20 +13,20 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label for="reps">レップ数</label>
-        <input type="number" class="form-control" name="reps">
-    </div>
+    <x-number-form :name="reps" :label="レップ数">
+        <x-slot name="label">レップ数</x-slot>
+        <x-slot name="name">reps</x-slot>
+    </x-number-form>
 
-    <div class="form-group">
-        <label for="weight">重量</label>
-        <input type="number" class="form-control" name="weight">
-    </div>
+    <x-number-form>
+        <x-slot name="label">重量</x-slot>
+        <x-slot name="name">weight</x-slot>
+    </x-number-form>
 
-    <div class="form-group">
-        <label for="interval_seconds">インターバル時間</label>
-        <input type="number" class="form-control" name="interval_seconds">
-    </div>
+    <x-number-form>
+        <x-slot name="label">インターバル時間</x-slot>
+        <x-slot name="name">interval_seconds</x-slot>
+    </x-number-form>
 
     <button type="submit">トレーニング開始</button>
 </form>
