@@ -7,9 +7,9 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <h1>トレーニング開始</h1>
+            <h1>新規ワークアウト作成</h1>
 
-            <form action="{{ route('training.store', null, false) }}" method="POST">
+            <form action="{{ route('workouts.store', null, false) }}" method="POST">
                 @csrf
                 <div class="col-span-6 sm:col-span-3">
                     <label for="training_menu" class="block text-sm font-medium leading-5 text-gray-700">トレーニングメニュー</label>

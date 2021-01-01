@@ -25,8 +25,8 @@ class TrainingSet extends Model
     /**
      * @return BelongsTo
      */
-    public function training()
+    public function training(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Training');
+        return $this->belongsTo(Training::class);
     }
 }

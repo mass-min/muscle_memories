@@ -10,6 +10,13 @@ class TrainingMenu extends Model
 {
     use HasFactory;
 
+    const PART_CHEST = 'chest';
+    const PART_BACK = 'back';
+    const PART_SHOULDER = 'shoulder';
+    const PART_ARMS = 'arms';
+    const PART_LEGS = 'legs';
+    const PART_ABS = 'abs';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,8 +30,8 @@ class TrainingMenu extends Model
     /**
      * @return HasMany
      */
-    public function trainings()
+    public function trainings(): HasMany
     {
-        return $this->hasMany('App\Model\Training');
+        return $this->hasMany(Training::class);
     }
 }

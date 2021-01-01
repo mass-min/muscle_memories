@@ -17,31 +17,30 @@ class Training extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'training_menu_id',
     ];
 
     /**
      * @return BelongsTo
      */
-    public function user()
+    public function workout(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(Workout::class);
     }
 
     /**
      * @return BelongsTo
      */
-    public function trainingMenu()
+    public function trainingMenu(): BelongsTo
     {
-        return $this->belongsTo('App\Models\TrainingMenu');
+        return $this->belongsTo(TrainingMenu::class);
     }
 
     /**
      * @return HasMany
      */
-    public function trainingSets()
+    public function trainingSets(): HasMany
     {
-        return $this->hasMany('App\Models\TrainingSet');
+        return $this->hasMany(TrainingSet::class);
     }
 }

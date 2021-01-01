@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
-use App\Domain\MuscleMemories\UseCase\CreateTrainingUseCase;
-use App\Domain\MuscleMemories\UseCase\GetUserTrainingsUseCase;
+use App\Domain\MuscleMemories\UseCase\CreateWorkoutUseCase;
+use App\Domain\MuscleMemories\UseCase\GetUserWorkoutsUseCase;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,18 +14,18 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
- * Class TrainingController
+ * Class WorkoutsController
  * @package App\Http\Controllers
  */
-class TrainingController extends Controller
+class WorkoutsController extends Controller
 {
     public function index()
     {
         $user = \Auth::user();
-        $getUserTrainingsUseCase = app(GetUserTrainingsUseCase::class);
-        $trainings = $getUserTrainingsUseCase->execute(new UserId($user->id));
+        $getUserWorkoutsUseCase = app(GetUserWorkoutsUseCase::class);
+        $workouts = $getUserWorkoutsUseCase->execute(new UserId($user->id));
 
-        return view('training.index', compact('trainings'));
+        return view('workouts.index', compact('workouts'));
     }
 
     public function show()
@@ -38,7 +38,7 @@ class TrainingController extends Controller
      */
     public function create()
     {
-        return view('training.create');
+        return view('workouts.create');
     }
 
     /**
@@ -48,12 +48,12 @@ class TrainingController extends Controller
     public function store(Request $request)
     {
         $user = \Auth::user();
-        $createTrainingUseCase = app(CreateTrainingUseCase::class);
-        $createTrainingUseCase->execute(
+        $createWorkoutUseCase = app(CreateWorkoutUseCase::class);
+        $createWorkoutUseCase->execute(
             new TrainingMenuId($request->get('training_menu')),
             new UserId($user->id)
         );
 
-        return redirect(route('training.index'));
+        return redirect(route('workouts.index'));
     }
 }

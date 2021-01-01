@@ -29,19 +29,16 @@ class TrainingEntity
 
     /**
      * @param TrainingMenuId $trainingMenuId
-     * @param UserId $userId
      * @param TrainingSetEntity[] $trainingSets
      * @return TrainingEntity
      */
     public static function reconstructFromRepository(
         TrainingMenuId $trainingMenuId,
-        UserId $userId,
         array $trainingSets
     ): TrainingEntity
     {
         $training = new self;
         $training->trainingMenuId = $trainingMenuId;
-        $training->userId = $userId;
         $training->trainingSets = [];
         foreach ($trainingSets as $trainingSet) {
             $training->trainingSets[] = self::addTrainingSet($trainingSet);

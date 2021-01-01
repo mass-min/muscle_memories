@@ -7,9 +7,9 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <h1>トレーニング一覧</h1>
+            <h1>ワークアウト一覧</h1>
             <ul>
-                @foreach($trainings as $training)
+                @foreach($workouts as $workout)
                     <li>
                         <p>{{ $training->trainingMenu->name }}</p>
                         <ul>

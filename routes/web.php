@@ -22,5 +22,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function (){
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('training', 'App\Http\Controllers\TrainingController');
+    Route::resource('workouts', App\Http\Controllers\WorkoutsController::class);
 });

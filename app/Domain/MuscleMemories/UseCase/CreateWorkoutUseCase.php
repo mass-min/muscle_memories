@@ -9,16 +9,16 @@ use App\Domain\MuscleMemories\Domain\ValueObject\TrainingMenuId;
 use App\Domain\MuscleMemories\Domain\ValueObject\UserId;
 
 /**
- * Class CreateTrainingUseCase
+ * Class CreateWorkoutUseCase
  * @package App\Domain\MuscleMemories\UseCase
  */
-final class CreateTrainingUseCase
+final class CreateWorkoutUseCase
 {
     private TrainingRepositoryInterface $trainingRepository;
     private TraineeRepositoryInterface $traineeRepository;
 
     /**
-     * CreateTrainingUseCase constructor.
+     * CreateWorkoutUseCase constructor.
      * @param TrainingRepositoryInterface $trainingRepository
      * @param TraineeRepositoryInterface $traineeRepository
      */

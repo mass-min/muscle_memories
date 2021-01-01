@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\TrainingMenu;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,12 +18,12 @@ class CreateTrainingMenusTable extends Migration
             $table->id();
             $table->string('name');
             $table->enum('body_part', [
-                'chest',
-                'back',
-                'shoulder',
-                'arms',
-                'legs',
-                'abs',
+                TrainingMenu::PART_CHEST,
+                TrainingMenu::PART_BACK,
+                TrainingMenu::PART_SHOULDER,
+                TrainingMenu::PART_ARMS,
+                TrainingMenu::PART_LEGS,
+                TrainingMenu::PART_ABS,
             ]);
             $table->timestamps();
         });
