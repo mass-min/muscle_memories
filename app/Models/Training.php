@@ -17,6 +17,7 @@ class Training extends Model
      * @var array
      */
     protected $fillable = [
+        'workout_id',
         'training_menu_id',
     ];
 

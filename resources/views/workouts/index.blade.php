@@ -10,16 +10,22 @@
             <h1>ワークアウト一覧</h1>
             <ul>
                 @foreach($workouts as $workout)
-                    <li>
-                        <p>{{ $training->trainingMenu->name }}</p>
-                        <ul>
-                            @foreach($training->trainingSets as $trainingSet)
-                                <li>
-                                    <p>{{ $trainingSet->reps }}回</p>
-                                    <p>{{ $trainingSet->weight }}kg</p>
-                                </li>
-                            @endforeach
-                        </ul>
+                    <li class="border list-none rounded-sm px-3 py-3">
+                        <p>実行日: {{ $workout->created_at }}</p>
+                        @foreach($workout->trainings as $training)
+                            <div class="p-3">
+                                <h2>{{ $training->trainingMenu->name }}</h2>
+                                <ul class="p-3">
+                                    @foreach($training->trainingSets as $trainingSet)
+                                        <li class="border-t list-none rounded-sm px-3 py-3 flex">
+                                            <p>{{ $trainingSet->weight }}kg</p>
+                                            <p class="ml-2">{{ $trainingSet->reps }}reps</p>
+                                            <p class="ml-2 flex-grow">インターバル: {{ $trainingSet->interval_seconds }}s</p>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endforeach
                     </li>
                 @endforeach
             </ul>

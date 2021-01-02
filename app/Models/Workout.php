@@ -12,6 +12,13 @@ class Workout extends Model
     use HasFactory;
 
     /**
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function user(): BelongsTo

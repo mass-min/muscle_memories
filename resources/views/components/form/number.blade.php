@@ -1,4 +1,3 @@
-<div class="form-group">
-    <label for="{{ $name }}">{{ $label }}</label>
-    <input type="number" class="form-control" name="{{ $name }}">
-</div>
+@props(['disabled' => false])
+
+<input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'form-input rounded-md shadow-sm']) !!}>
