@@ -9,5 +9,5 @@
         <h1>新規ワークアウト作成</h1>
         @include('workouts._form')
     </div>
-    <livewire:test>
+    <livewire:test />
 </x-app-layout>

@@ -41,16 +41,13 @@ class WorkoutEntity
     }
 
     /**
-     * @param WorkoutId $workoutId
      * @param UserId $userId
      * @return WorkoutEntity
      */
     public static function newByTrainee(
-        WorkoutId $workoutId,
         UserId $userId
     ): WorkoutEntity {
         $workout = new self;
-        $workout->id = $workoutId;
         $workout->userId = $userId;
         return $workout;
     }

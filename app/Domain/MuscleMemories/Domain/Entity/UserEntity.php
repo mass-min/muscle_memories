@@ -37,6 +37,11 @@ class UserEntity
         return $user;
     }
 
+    public function newWorkout(): WorkoutEntity
+    {
+        return WorkoutEntity::newByTrainee($this->id);
+    }
+
     /**
      * @param TrainingMenuId $trainingMenuId
      * @return TrainingEntity

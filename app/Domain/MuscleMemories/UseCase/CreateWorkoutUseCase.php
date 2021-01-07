@@ -42,7 +42,8 @@ final class CreateWorkoutUseCase
     ): TrainingEntity
     {
         $trainee = $this->traineeRepository->getTrainee($userId);
-        $training = $trainee->newTraining($trainingMenuId);
+        $workout = $trainee->newWorkout();
+        $training = $trainee->newTraining($workout->getId(), $trainingMenuId);
 
         return $this->trainingRepository->save($training);
     }
